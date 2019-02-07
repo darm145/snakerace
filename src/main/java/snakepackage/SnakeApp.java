@@ -73,21 +73,18 @@ public class SnakeApp {
             public void actionPerformed(ActionEvent e) {
             	if(!paused) {
 	            	paused=true;
-	            	for(int i=0;i<MAX_THREADS;i++) {
-	            		snakes[i].Pause();
-	                	try {
-	                		synchronized(thread[i]) {
-	                			thread[i].wait();
-	                		}
-	                		
-	                		
-	                		
-							
-						} catch (InterruptedException e1) {
-							e1.printStackTrace();
-						}
-	                	
-	                }
+	            	for(Snake s:snakes) {
+	            		s.Pause();
+	            	}
+	            	try {
+	            		synchronized(thread) {
+	            			thread.wait();
+	            		}
+						
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
+	            	
 	            	
             	}
             }
@@ -128,7 +125,7 @@ public class SnakeApp {
             
         }
         frame.setVisible(true);
-        if(started) {
+        if(started && !paused ) {
         while (true) {
         	
             int x = 0;
